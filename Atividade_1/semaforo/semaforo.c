@@ -25,7 +25,7 @@ bool repeating_timer_callback(struct repeating_timer *t)
     }
 
     ledAceso++;
-    printf("Altera o sinal");
+    printf("Alterou o sinal\n");
 
     return true;
 }
@@ -45,12 +45,12 @@ int main()
     // Esta estrutura armazenará informações sobre o temporizador configurado.
     struct repeating_timer timer;
 
-    // Configura o temporizador para chamar a função de callback a cada 1 segundo.
+    // Configura o temporizador para chamar a função de callback a cada 3 segundos.
     add_repeating_timer_ms(3000, repeating_timer_callback, NULL, &timer);
 
     while (true)
     {
         sleep_ms(1000);
-        printf("Passou 1 segundo");
+        printf("Passou 1 segundo\n");
     }
 }
