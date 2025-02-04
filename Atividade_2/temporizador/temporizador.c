@@ -40,6 +40,13 @@ int64_t turn_off_callback(alarm_id_t id, void *user_data)
 {
 
     // Desligar os LEDs um por vez com atraso de 3s
+    gpio_put(ledAzul, 0);
+    sleep_ms(3000);
+
+    gpio_put(ledVermelho, 0);
+    sleep_ms(3000);
+
+    gpio_put(ledVerde, 0);
 
     // Atualiza o estado de 'ledAtivo' para falso, indicando que o LED está desligado.
     ledAtivo = false;
@@ -51,12 +58,14 @@ void gpio_irq_handler(uint gpio, uint32_t events)
 {
     uint32_t current_time = to_us_since_boot(get_absolute_time());
 
-    if (current_time - last_time > 200000 && !ledAtivo) // 200ms de debounce
+    if (current_time - last_time > 200000 && !ledAtivo) // 200ms de debounce e os leds não estarem ligados
     {
         last_time = current_time;
+
         gpio_put(ledVermelho, 1);
         gpio_put(ledAzul, 1);
         gpio_put(ledVerde, 1);
+
         ledAtivo = true;
 
         add_alarm_in_ms(3000, turn_off_callback, NULL, false);
